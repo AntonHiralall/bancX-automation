@@ -8,6 +8,7 @@ import { Helpers } from '../utils/helpers';
 test.describe('Financial Information Form', () => {
     let dashboardPage: DashboardPage;
     let financialInfoPage: FinancialInfoPage;
+    let helpers: Helpers;
     const testData = TestDataLoader.getInstance();
 
     test.beforeEach(async ({ page }) => {
@@ -18,9 +19,9 @@ test.describe('Financial Information Form', () => {
         await dashboardPage.waitForPageLoad();
 
         // Cancel any existing application
-        const helpers = new Helpers(page);
+        helpers = new Helpers(page);
         await helpers.cancelExistingApplication();
-        
+
         // Navigate to financial info page
         await dashboardPage.clickCreateAccount();
         financialInfoPage = new FinancialInfoPage(page);
@@ -30,7 +31,7 @@ test.describe('Financial Information Form', () => {
     test.describe('Valid Scenarios', () => {
         test('Should successfully submit form with standard income', async ({ page }) => {
             const standardIncome = testData.getFinancialInfo('validScenarios', 'standardIncome');
-            
+
             await test.step('Fill in standard income data', async () => {
                 await financialInfoPage.fillFinancialInfo(standardIncome);
             });
@@ -43,11 +44,21 @@ test.describe('Financial Information Form', () => {
                 await financialInfoPage.clickNext();
                 expect(await financialInfoPage.isErrorMessageVisible()).toBeFalsy();
             });
+
+            await test.step('Select test product and verify loan calculator screen', async () => {
+                await helpers.selectTestProduct();
+                const loanCalculatorScreen = await page.screenshot({ fullPage: true, path: 'test-data/screenshots/currentLoanCalculatorScreen.png' });
+                expect(loanCalculatorScreen).toEqual('test-data/screenshots/reference/loan-calculator-screen.jpg');
+            });
+
+            await test.step('Verify form is properly filled', async () => {
+                expect(await financialInfoPage.areRequiredFieldsFilled()).toBeTruthy();
+            });
         });
 
         test('Should successfully submit form with high income', async ({ page }) => {
             const highIncome = testData.getFinancialInfo('validScenarios', 'highIncome');
-            
+
             await test.step('Fill in high income data', async () => {
                 await financialInfoPage.fillFinancialInfo(highIncome);
             });
@@ -60,7 +71,7 @@ test.describe('Financial Information Form', () => {
 
         test('Should successfully submit form with low income', async ({ page }) => {
             const lowIncome = testData.getFinancialInfo('validScenarios', 'lowIncome');
-            
+
             await test.step('Fill in low income data', async () => {
                 await financialInfoPage.fillFinancialInfo(lowIncome);
             });
@@ -73,24 +84,11 @@ test.describe('Financial Information Form', () => {
     });
 
     test.describe('Invalid Scenarios', () => {
-        // test.only('Should show error with empty fields', async ({ page }) => {
-        //     const emptyFields = testData.getFinancialInfo('invalidScenarios', 'emptyFields');
-            
-        //     await test.step('Submit form with empty fields', async () => {
-        //         await financialInfoPage.fillFinancialInfo(emptyFields);
-        //         await financialInfoPage.selectPayDay(emptyFields.payDay);
-        //         await financialInfoPage.selectLoanReason(emptyFields.loanReason);
-        //         await financialInfoPage.clickNext();
-        //     });
 
-        //     await test.step('Verify error message is displayed', async () => {
-        //         expect(await financialInfoPage.isErrorMessageVisible()).toBeTruthy();
-        //     });
-        // });
 
         test('Should show error with invalid amounts', async ({ page }) => {
             const invalidAmounts = testData.getFinancialInfo('invalidScenarios', 'invalidAmounts');
-            
+
             await test.step('Submit form with invalid amounts', async () => {
                 await financialInfoPage.fillFinancialInfo(invalidAmounts);
                 await financialInfoPage.clickNext();
@@ -103,7 +101,7 @@ test.describe('Financial Information Form', () => {
 
         test('Should show error with negative amounts', async ({ page }) => {
             const negativeAmounts = testData.getFinancialInfo('invalidScenarios', 'negativeAmounts');
-            
+
             await test.step('Submit form with negative amounts', async () => {
                 await financialInfoPage.fillFinancialInfo(negativeAmounts);
                 await financialInfoPage.clickNext();
@@ -116,7 +114,7 @@ test.describe('Financial Information Form', () => {
 
         test('Should show error with special characters', async ({ page }) => {
             const specialCharacters = testData.getFinancialInfo('invalidScenarios', 'specialCharacters');
-            
+
             await test.step('Submit form with special characters', async () => {
                 await financialInfoPage.fillFinancialInfo(specialCharacters);
                 await financialInfoPage.clickNext();
@@ -131,7 +129,7 @@ test.describe('Financial Information Form', () => {
     test.describe('Edge Cases', () => {
         test('Should handle maximum amounts', async ({ page }) => {
             const maximumAmounts = testData.getFinancialInfo('edgeCases', 'maximumAmounts');
-            
+
             await test.step('Submit form with maximum amounts', async () => {
                 await financialInfoPage.fillFinancialInfo(maximumAmounts);
                 await financialInfoPage.clickNext();
@@ -146,7 +144,7 @@ test.describe('Financial Information Form', () => {
 
         test('Should handle minimum amounts', async ({ page }) => {
             const minimumAmounts = testData.getFinancialInfo('edgeCases', 'minimumAmounts');
-            
+
             await test.step('Submit form with minimum amounts', async () => {
                 await financialInfoPage.fillFinancialInfo(minimumAmounts);
                 await financialInfoPage.clickNext();
@@ -161,7 +159,7 @@ test.describe('Financial Information Form', () => {
 
         test('Should handle zero amounts', async ({ page }) => {
             const zeroAmounts = testData.getFinancialInfo('edgeCases', 'zeroAmounts');
-            
+
             await test.step('Submit form with zero amounts', async () => {
                 await financialInfoPage.fillFinancialInfo(zeroAmounts);
                 await financialInfoPage.clickNext();
@@ -177,7 +175,7 @@ test.describe('Financial Information Form', () => {
     test.describe('Form Field Validation', () => {
         test('Should clear all fields when reset', async ({ page }) => {
             const standardIncome = testData.getFinancialInfo('validScenarios', 'standardIncome');
-            
+
             await test.step('Fill form and then clear all fields', async () => {
                 await financialInfoPage.fillFinancialInfo(standardIncome);
                 await financialInfoPage.clearAllFields();
@@ -190,7 +188,7 @@ test.describe('Financial Information Form', () => {
 
         test('Should require terms and conditions to be checked', async ({ page }) => {
             const standardIncome = testData.getFinancialInfo('validScenarios', 'standardIncome');
-            
+
             await test.step('Fill form without checking terms', async () => {
                 await financialInfoPage.fillGrossMonthlyIncome(standardIncome.grossMonthlyIncome);
                 await financialInfoPage.fillMonthlyNetIncome(standardIncome.monthlyNetIncome);
