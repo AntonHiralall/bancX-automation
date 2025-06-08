@@ -1,0 +1,88 @@
+{
+  "validScenarios": {
+    "standardIncome": {
+      "grossMonthlyIncome": "15000",
+      "monthlyNetIncome": "12000",
+      "monthlyExpenses": "8000",
+      "payDay": "15",
+      "loanReason": "Capex",
+      "termsAndConditions": true
+    },
+    "highIncome": {
+      "grossMonthlyIncome": "50000",
+      "monthlyNetIncome": "40000",
+      "monthlyExpenses": "20000",
+      "payDay": "15",
+      "loanReason": "Capex",
+      "termsAndConditions": true
+    },
+    "lowIncome": {
+      "grossMonthlyIncome": "5000",
+      "monthlyNetIncome": "4000",
+      "monthlyExpenses": "3000",
+      "payDay": "15",
+      "loanReason": "Capex",
+      "termsAndConditions": true
+    }
+  },
+  "invalidScenarios": {
+    "emptyFields": {
+      "grossMonthlyIncome": "",
+      "monthlyNetIncome": "",
+      "monthlyExpenses": "",
+      "payDay": "",
+      "loanReason": "",
+      "termsAndConditions": false
+    },
+    "specialCharacters": {
+      "grossMonthlyIncome": "!@#$%^&*()",
+      "monthlyNetIncome": "!@#$%^&*()",
+      "monthlyExpenses": "!@#$%^&*()",
+      "payDay": "15",
+      "loanReason": "Capex",
+      "termsAndConditions": true
+    },
+    "invalidAmounts": {
+      "grossMonthlyIncome": "abc",
+      "monthlyNetIncome": "xyz",
+      "monthlyExpenses": "123",
+      "payDay": "15",
+      "loanReason": "Capex",
+      "termsAndConditions": true
+    },
+    "negativeAmounts": {
+      "grossMonthlyIncome": "-1000",
+      "monthlyNetIncome": "-800",
+      "monthlyExpenses": "-500",
+      "payDay": "15",
+      "loanReason": "Capex",
+      "termsAndConditions": true
+    }
+  },
+  "edgeCases": {
+    "maximumAmounts": {
+      "grossMonthlyIncome": "999999999.99",
+      "monthlyNetIncome": "999999999.99",
+      "monthlyExpenses": "999999999.99",
+      "payDay": "15",
+      "loanReason": "Capex",
+      "termsAndConditions": true
+    },
+    "minimumAmounts": {
+      "grossMonthlyIncome": "0.01",
+      "monthlyNetIncome": "0.01",
+      "monthlyExpenses": "0.01",
+      "payDay": "15",
+      "loanReason": "Capex",
+      "termsAndConditions": true
+    },
+    "zeroAmounts": {
+      "grossMonthlyIncome": "0",
+      "monthlyNetIncome": "0",
+      "monthlyExpenses": "0",
+      "payDay": "15",
+      "loanReason": "Capex",
+      "termsAndConditions": true
+    }
+  }
+} 
