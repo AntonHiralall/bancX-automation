@@ -1,8 +1,10 @@
 ---
 description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
+Description: Cursor Framework Rules
+
 Follow the Folder Structure Convention
 Structure code cleanly for AI and human readability:
 
