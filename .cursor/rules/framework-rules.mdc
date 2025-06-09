@@ -1,0 +1,42 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Follow the Folder Structure Convention
+Structure code cleanly for AI and human readability:
+
+/tests            → Actual test files
+/pages            → Page Object Models
+/utils            → Helpers (DB, wait, data, etc.)
+/config           → Env, test data, etc.
+.env              → Secrets and env-specific values
+playwright.config.ts
+
+Write Self-Describing Code
+Use meaningful names and include brief inline comments. Cursor will reason better about your intent.
+
+Keep Tests Atomic and Independent
+Avoid cross-test dependencies. Make each test cleanly reusable. Cursor can better refactor or fix failing cases when tests are independent.
+
+Use Page Object Model (POM) Rigorously
+Create one class per screen/page
+Encapsulate selectors and methods
+Keep test files free of raw selectors
+
+Isolate Utilities in /utils
+Move repeated code like waitForLoader(), queryDB(), or generateToken() to utils/. Cursor will suggest reuse intelligently.
+
+Externalize Config via .env
+Keep secrets out of code. Use process.env.DB_PASS in db.ts and let Cursor auto-complete based on .env usage.
+
+Make Small Commits + Use Cursor Diff
+Keep changes atomic. Cursor understands diffs well and can help describe them or roll them back.
+
+Ask Cursor to Enforce Patterns
+Use prompts like:
+"Refactor to follow POM pattern"
+"Add retry logic with exponential backoff"
+"Split this into smaller helper functions"
+
+"Improve naming based on functionality"
