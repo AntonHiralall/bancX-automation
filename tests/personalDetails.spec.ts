@@ -37,6 +37,7 @@ test.describe('Personal Details Form', () => {
         // Select test product
         await helpers.selectTestProduct();
         await financialInfoPage.clickNext();
+        // Click next on calculator screen
         await financialInfoPage.clickNext();
 
         // Initialize personal details page
@@ -76,7 +77,7 @@ test.describe('Personal Details Form', () => {
             });
         });
 
-        test.only('Should show error with invalid email', async ({ page }) => {
+        test('Should show error with invalid email', async ({ page }) => {
             const invalidEmail = testData.getPersonalDetails('invalidScenarios', 'invalidEmail');
             await test.step('Fill in invalid email', async () => {
                 await personalDetailsPage.fillPersonalDetails(invalidEmail);
@@ -95,7 +96,7 @@ test.describe('Personal Details Form', () => {
             // System does not have mobile number character validation
         });
 
-        test('Should show error with special characters', async ({ page }) => {
+        test.only('Should show error with special characters', async ({ page }) => {
             const specialCharacters = testData.getPersonalDetails('invalidScenarios', 'specialCharacters');
             await test.step('Fill in special characters', async () => {
                 await personalDetailsPage.fillPersonalDetails(specialCharacters);
