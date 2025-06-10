@@ -1,10 +1,10 @@
 {
     "validScenarios": {
         "standardDetails": {
-            "fname": "John",
-            "lname": "Doe",
+            "fname": "Anton",
+            "lname": "Hiralall",
             "mobileNumber": "0821234567",
-            "email": "john.doe@example.com"
+            "email": "anton+User14@bancx.com"
         },
         "longNameDetails": {
             "fname": "Christopher",
