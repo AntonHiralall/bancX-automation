@@ -101,6 +101,7 @@ test.describe('Personal Details Form', () => {
                 await personalDetailsPage.fillPersonalDetails(specialCharacters);
             });
             // System allows special characters
+            // test
         });
     });
 });
