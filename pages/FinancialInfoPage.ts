@@ -10,7 +10,7 @@ export class FinancialInfoPage extends BasePage {
     private payDaySelect = this.page.getByTestId('monthlyPayDate');
     private loanReasonSelect = this.page.getByTestId('loanReason');
     private termsAndConditionsCheckbox = this.page.getByRole('checkbox', { name: 'I give AVBOB Personal Loans' });
-    private nextButton = this.page.getByRole('button', { name: 'Next' });
+    // private nextButton = this.page.getByRole('button', { name: 'Next' });
     private expensesEqualsIncomeValidationMessage = this.page.getByTestId('validation');
     private financialInfoErrorMessage = this.page.locator('div').filter({ hasText: '❗ Validation ErrorPlease' }).nth(1);
 
@@ -92,10 +92,10 @@ export class FinancialInfoPage extends BasePage {
     /**
      * Click the next button
      */
-    async clickNext() {
-        await this.nextButton.click();
-        await this.waitForPageLoad();
-    }
+    // async clickNext() {
+    //     await this.clickNext();
+    //     await this.waitForPageLoad();
+    // }
 
     /**
      * Check if error message is visible

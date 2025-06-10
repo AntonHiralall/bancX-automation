@@ -1,0 +1,48 @@
+{
+    "validScenarios": {
+        "standardDetails": {
+            "fname": "John",
+            "lname": "Doe",
+            "mobileNumber": "0821234567",
+            "email": "john.doe@example.com"
+        },
+        "longNameDetails": {
+            "fname": "Christopher",
+            "lname": "Anderson-Smith",
+            "mobileNumber": "0821234567",
+            "email": "chris.anderson-smith@example.com"
+        },
+        "shortNameDetails": {
+            "fname": "Li",
+            "lname": "Wu",
+            "mobileNumber": "0821234567",
+            "email": "li.wu@example.com"
+        }
+    },
+    "invalidScenarios": {
+        "emptyFields": {
+            "fname": "",
+            "lname": "",
+            "mobileNumber": "",
+            "email": ""
+        },
+        "invalidEmail": {
+            "fname": "John",
+            "lname": "Doe",
+            "mobileNumber": "0821234567",
+            "email": "invalid-email"
+        },
+        "invalidMobile": {
+            "fname": "John",
+            "lname": "Doe",
+            "mobileNumber": "123",
+            "email": "john.doe@example.com"
+        },
+        "specialCharacters": {
+            "fname": "John!@#",
+            "lname": "Doe$%^",
+            "mobileNumber": "0821234567",
+            "email": "john.doe@example.com"
+        }
+    }
+} 

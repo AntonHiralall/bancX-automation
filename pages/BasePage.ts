@@ -2,10 +2,13 @@ import { Page } from '@playwright/test';
 
 export class BasePage {
     protected page: Page;
+    private nextButton;
 
     constructor(page: Page) {
         this.page = page;
+        this.nextButton = this.page.getByRole('button', { name: 'Next' });
     }
+    
 
     /**
      * Navigate to a specific URL
@@ -27,5 +30,10 @@ export class BasePage {
      */
     async getPageTitle(): Promise<string> {
         return await this.page.title();
+    }
+
+    async clickNext() {
+        await this.nextButton.click();
+        await this.waitForPageLoad();
     }
 } 

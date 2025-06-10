@@ -1,15 +1,18 @@
 import { FinancialInfo, FinancialInfoData } from '../test-data/financialInfo.types';
+import { PersonalDetailsData } from '../test-data/personalDetails.types';
 import * as fs from 'fs';
 import * as path from 'path';
 
 export class TestDataLoader {
     private static instance: TestDataLoader;
     private financialInfoData: FinancialInfoData;
+    private personalDetailsData: PersonalDetailsData;
 
     private constructor() {
         const dataPath = path.join(process.cwd(), 'test-data', 'financialInfo.json');
         const rawData = fs.readFileSync(dataPath, 'utf-8');
         this.financialInfoData = JSON.parse(rawData);
+        this.personalDetailsData = require('../test-data/personalDetails.json');
     }
 
     public static getInstance(): TestDataLoader {
@@ -60,5 +63,9 @@ export class TestDataLoader {
      */
     public getEdgeCases(): FinancialInfo[] {
         return this.getAllScenarios('edgeCases');
+    }
+
+    public getPersonalDetails(category: keyof PersonalDetailsData, scenario: string) {
+        return this.personalDetailsData[category][scenario];
     }
 } 
