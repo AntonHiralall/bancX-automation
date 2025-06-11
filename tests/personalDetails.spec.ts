@@ -96,7 +96,7 @@ test.describe('Personal Details Form', () => {
             // System does not have mobile number character validation
         });
 
-        test.only('Should show error with special characters', async ({ page }) => {
+        test('Should show error with special characters', async ({ page }) => {
             const specialCharacters = testData.getPersonalDetails('invalidScenarios', 'specialCharacters');
             await test.step('Fill in special characters', async () => {
                 await personalDetailsPage.fillPersonalDetails(specialCharacters);
