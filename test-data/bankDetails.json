@@ -1,0 +1,71 @@
+{
+    "validScenarios": {
+        "standardDetails": {
+            "bank": "BancX",
+            "branch": "BancX branch",
+            "accountType": "Savings",
+            "accountNumber": "1234567890",
+            "accountHolderName": "John Smith"
+        },
+        "longAccountNumber": {
+            "bank": "BancX",
+            "branch": "BancX branch",
+            "accountType": "Savings",
+            "accountNumber": "12345678901234567890",
+            "accountHolderName": "John Smith"
+        },
+        "shortAccountNumber": {
+            "bank": "BancX",
+            "branch": "BancX branch",
+            "accountType": "Savings",
+            "accountNumber": "123456",
+            "accountHolderName": "John Smith"
+        }
+    },
+    "invalidScenarios": {
+        "invalidAccountNumber": {
+            "bank": "BancX",
+            "branch": "BancX branch",
+            "accountType": "Savings",
+            "accountNumber": "12345abc",
+            "accountHolderName": "John Smith"
+        },
+        "invalidAccountHolderName": {
+            "bank": "BancX",
+            "branch": "BancX branch",
+            "accountType": "Savings",
+            "accountNumber": "1234567890",
+            "accountHolderName": "John123"
+        },
+        "emptyFields": {
+            "bank": "",
+            "branch": "",
+            "accountType": "",
+            "accountNumber": "",
+            "accountHolderName": ""
+        }
+    },
+    "edgeCases": {
+        "maximumLengthAccountNumber": {
+            "bank": "BancX",
+            "branch": "BancX branch",
+            "accountType": "Savings",
+            "accountNumber": "123456789012345678901234567890",
+            "accountHolderName": "John Smith"
+        },
+        "minimumLengthAccountNumber": {
+            "bank": "BancX",
+            "branch": "BancX branch",
+            "accountType": "Savings",
+            "accountNumber": "1",
+            "accountHolderName": "John Smith"
+        },
+        "specialCharactersAccountHolder": {
+            "bank": "BancX",
+            "branch": "BancX branch",
+            "accountType": "Savings",
+            "accountNumber": "1234567890",
+            "accountHolderName": "John-Smith O'Connor"
+        }
+    }
+} 

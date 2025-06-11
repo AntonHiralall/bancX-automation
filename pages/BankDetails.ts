@@ -1,0 +1,54 @@
+import { BasePage } from "./BasePage";
+import { Page } from "@playwright/test";
+
+export class BankDetailsPage extends BasePage {
+    private loadBankOptions = this.page.getByTestId('bank').getByRole('button', { name: 'dropdown trigger' });
+    private selectBankOption = this.page.getByRole('option', { name: 'BancX' });
+    private loadBankBranch = this.page.getByTestId('branch').getByRole('button', { name: 'dropdown trigger' });
+    private validateBankBranch = this.page.getByLabel('Option List').getByText('BancX branch');
+    private loadAccountType = this.page.getByTestId('accountType').getByRole('button', { name: 'dropdown trigger' });
+    private selectAccountType = this.page.getByRole('option', { name: 'Savings' });
+    private enterAccountNumber = this.page.getByRole('spinbutton', { name: 'Account number' });
+    private enterAccountHolderName = this.page.getByRole('textbox', { name: 'Account holder name' });
+    private validatePageHeader = this.page.getByRole('heading', { name: 'Your bank details' });
+    private validatePageDescription = this.page.getByText('This is the bank account we');
+
+    constructor(page: Page) {
+        super(page);
+    }
+
+    async selectBank() {
+        await this.loadBankOptions.click();
+        await this.selectBankOption.click();
+    }
+
+    async selectBankBranch() {
+        await this.loadBankBranch.click();
+        await this.validateBankBranch.click();
+    }
+
+    async chooseAccountType() {
+        await this.loadAccountType.click();
+        await this.selectAccountType.click();
+    }
+
+    async captureAccountNumber(accountNumber: string) {
+        await this.enterAccountNumber.fill(accountNumber);
+    }
+
+    async captureAccountHolderName(accountHolderName: string) {
+        await this.enterAccountHolderName.fill(accountHolderName);
+    }
+
+    async assertPageHeader() {
+        await this.validatePageHeader.isVisible();
+    }
+
+    async assertPageDescription() {
+        await this.validatePageDescription.isVisible();
+    }
+
+
+}
+
+

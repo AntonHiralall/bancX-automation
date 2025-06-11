@@ -1,5 +1,6 @@
 import { FinancialInfo, FinancialInfoData } from '../test-data/financialInfo.types';
 import { PersonalDetailsData } from '../test-data/personalDetails.types';
+import { BankDetails, BankDetailsTestData } from '../test-data/bankDetails.types';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -7,12 +8,15 @@ export class TestDataLoader {
     private static instance: TestDataLoader;
     private financialInfoData: FinancialInfoData;
     private personalDetailsData: PersonalDetailsData;
+    private bankDetailsData: BankDetailsTestData;
 
     private constructor() {
-        const dataPath = path.join(process.cwd(), 'test-data', 'financialInfo.json');
-        const rawData = fs.readFileSync(dataPath, 'utf-8');
-        this.financialInfoData = JSON.parse(rawData);
+        const financialInfoPath = path.join(process.cwd(), 'test-data', 'financialInfo.json');
+        const rawFinancialData = fs.readFileSync(financialInfoPath, 'utf-8');
+        this.financialInfoData = JSON.parse(rawFinancialData);
+        
         this.personalDetailsData = require('../test-data/personalDetails.json');
+        this.bankDetailsData = require('../test-data/bankDetails.json');
     }
 
     public static getInstance(): TestDataLoader {
@@ -65,7 +69,32 @@ export class TestDataLoader {
         return this.getAllScenarios('edgeCases');
     }
 
+    /**
+     * Get personal details for a specific scenario
+     * @param category The category of the scenario
+     * @param scenario The specific scenario name
+     * @returns The personal details data for the specified scenario
+     */
     public getPersonalDetails(category: keyof PersonalDetailsData, scenario: string) {
         return this.personalDetailsData[category][scenario];
+    }
+
+    /**
+     * Get bank details for a specific scenario
+     * @param category The category of the scenario
+     * @param scenario The specific scenario name
+     * @returns The bank details data for the specified scenario
+     */
+    public getBankDetails(category: keyof BankDetailsTestData, scenario: string): BankDetails {
+        return this.bankDetailsData[category][scenario as keyof typeof this.bankDetailsData[typeof category]];
+    }
+
+    /**
+     * Get all bank details scenarios from a specific category
+     * @param category The category of scenarios to get
+     * @returns An array of all bank details scenarios in the specified category
+     */
+    public getAllBankDetailsScenarios(category: keyof BankDetailsTestData): BankDetails[] {
+        return Object.values(this.bankDetailsData[category]);
     }
 } 
