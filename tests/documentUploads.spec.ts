@@ -73,7 +73,7 @@ test.describe('Document Upload Tests', () => {
             });
         });
 
-        test.only('Should successfully upload multiple bank statements', async () => {
+        test('Should successfully upload multiple bank statements', async () => {
             await documentUploadsPage.uploadMultipleBankStatements(['test-data/documents/Sample bank statement page 1.jpg', 'test-data/documents/Sample bank statement page 2.jpg', 'test-data/documents/Sample bank statement page 3.pdf']);
             await documentUploadsPage.clickNext();
         });
