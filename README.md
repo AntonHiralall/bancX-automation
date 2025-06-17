@@ -12,7 +12,6 @@ A robust end-to-end testing framework for bancX using Playwright and TypeScript,
 - **Parallel Execution**: Run tests in parallel for faster execution
 - **Detailed Reporting**: HTML and JSON test reports
 - **Environment Configuration**: Flexible configuration for different environments
-- **Base Page Class**: Common functionality shared across all page objects
 
 ## 📋 Prerequisites
 
@@ -44,35 +43,11 @@ npx playwright install
 bancX-automation/
 ├── config/                 # Configuration files
 ├── pages/                  # Page Object Models
-│   ├── BasePage.ts        # Base class with common functionality
-│   ├── LoginPage.ts       # Login page implementation
-│   └── ...               # Other page objects
 ├── tests/                  # Test specifications
 ├── test-data/             # Test data files
 ├── utils/                 # Helper functions and utilities
 ├── tests-examples/        # Example test cases
 └── playwright.config.ts   # Playwright configuration
-```
-
-## 📝 Page Object Model Implementation
-
-### BasePage Class
-The `BasePage` class provides common functionality used across all page objects:
-- Page navigation
-- Page load waiting
-- Title retrieval
-- Next button interaction
-- Element visibility validation
-
-Example usage:
-```typescript
-class CustomPage extends BasePage {
-    constructor(page: Page) {
-        super(page);
-    }
-    
-    // Custom page methods
-}
 ```
 
 ## 🧪 Running Tests
@@ -125,13 +100,11 @@ The framework uses `playwright.config.ts` for configuration. Key settings includ
 ## 📝 Best Practices
 
 - Follow the Page Object Model pattern
-- Extend BasePage for common functionality
 - Use meaningful test descriptions
 - Keep tests independent
 - Use data-driven testing where appropriate
 - Implement proper error handling
 - Add appropriate waits and assertions
-- Use TypeScript types for better code quality
 
 ## 🔐 Environment Variables
 
@@ -155,9 +128,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👥 Authors
 
 - **Anton Hiralall** - *Initial work* - [AntonHiralall](https://github.com/AntonHiralall)
-
-## 🙏 Acknowledgments
-
-- Playwright team for the amazing testing framework
-- TypeScript team for the type safety features
-- All contributors who have helped shape this project 
