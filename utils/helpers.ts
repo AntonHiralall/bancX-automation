@@ -5,12 +5,12 @@ export class Helpers extends BasePage {
     constructor(page: Page) {
         super(page);
     }
-    private cancelFirstApplicationButton = this.page.getByRole('button', { name: 'Cancel' }).first();
     private cancelApplicationButton = this.page.getByRole('button', { name: 'Cancel' });
     private cancelDropdown = this.page.getByRole('button', { name: 'dropdown trigger' });
     private cancelReason = this.page.getByRole('option', { name: 'User Declined' });
     private confirmCancellation = this.page.getByRole('button', { name: 'Yes, cancel' });
     private selectProduct = this.page.getByTestId('product-1020001');
+    private createAccountButton = this.page.getByTestId('start-loan-app');
 
     async cancelExistingApplication() {
         let i = 0;
@@ -62,11 +62,12 @@ export class Helpers extends BasePage {
         }
     }
 
-
-
-
     async selectTestProduct() {
         await this.page.waitForLoadState('networkidle');
         await this.selectProduct.click();
+    }
+
+    async clickCreateAccount() {
+        await this.createAccountButton.click();
     }
 }

@@ -23,7 +23,7 @@ test.describe('Financial Information Form', () => {
         await helpers.cancelExistingApplication();
 
         // Navigate to financial info page
-        await dashboardPage.clickCreateAccount();
+        await helpers.clickCreateAccount();
         financialInfoPage = new FinancialInfoPage(page);
         await financialInfoPage.waitForPageLoad();
     });

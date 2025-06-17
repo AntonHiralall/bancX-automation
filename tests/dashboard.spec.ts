@@ -1,12 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
-import { ENV } from '../config/env';
+import { Helpers } from '../utils/helpers';
 
-test.describe('Dashboard Functionality', () => {
+test.describe('Dashboard Tests', () => {
     let dashboardPage: DashboardPage;
+    let helpers: Helpers;
 
     test.beforeEach(async ({ page }) => {
+        // Login and navigate to financial info page
         const loginPage = new LoginPage(page);
         await loginPage.navigateToLogin();
         dashboardPage = await loginPage.login();
@@ -20,7 +22,8 @@ test.describe('Dashboard Functionality', () => {
         });
 
         await test.step('Click create account button', async () => {
-            await dashboardPage.clickCreateAccount();
+            helpers = new Helpers(page);            
+            await helpers.clickCreateAccount();
             // Add assertions based on what happens after clicking the button
             // This will need to be updated once we know the expected behavior
         });

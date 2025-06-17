@@ -1,16 +1,17 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
 import { FinancialInfoPage } from '../pages/FinancialInfoPage';
+import { NextSteps } from '../pages/NextSteps';
 import { TestDataLoader } from '../utils/testDataLoader';
 import { Helpers } from '../utils/helpers';
-import { NextSteps } from '../pages/NextSteps';
 
-test.describe('Next Steps Tests', () => {
+test.describe('Next Steps Form Tests', () => {
     let dashboardPage: DashboardPage;
     let financialInfoPage: FinancialInfoPage;
+    let nextStepsPage: NextSteps;
     let helpers: Helpers;
-    const testData = TestDataLoader.getInstance();
+    const testDataLoader = TestDataLoader.getInstance();
 
     test.beforeEach(async ({ page }) => {
         // Login and navigate to financial info page
@@ -24,24 +25,26 @@ test.describe('Next Steps Tests', () => {
         await helpers.cancelExistingApplication();
 
         // Navigate to financial info page
-        await dashboardPage.clickCreateAccount();
+        await helpers.clickCreateAccount();
         financialInfoPage = new FinancialInfoPage(page);
         await financialInfoPage.waitForPageLoad();
 
         // Fill in standard income data
-        const standardIncome = testData.getFinancialInfo('validScenarios', 'standardIncome');
+        const standardIncome = testDataLoader.getFinancialInfo('validScenarios', 'standardIncome');
         await financialInfoPage.fillFinancialInfo(standardIncome);
-        await financialInfoPage.clickNext();
+        await financialInfoPage.clickNext();    
 
         // Select test product
         await helpers.selectTestProduct();
-
-        // Click next on loan calculator screen
         await financialInfoPage.clickNext();
+        // Click next on calculator screen
+        await financialInfoPage.clickNext();
+
+        // Initialize next steps page
+        nextStepsPage = new NextSteps(page);
     });
 
     test('Validate Next Steps Screen', async ({ page }) => {
-        const nextStepsPage = new NextSteps(page);
         await nextStepsPage.validateNextStepsScreen();
     });
 });

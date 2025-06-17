@@ -1,5 +1,5 @@
 import { BasePage } from "./BasePage";
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 
 export class BankDetailsPage extends BasePage {
     private loadBankOptions = this.page.getByTestId('bank').getByRole('button', { name: 'dropdown trigger' });
@@ -12,6 +12,9 @@ export class BankDetailsPage extends BasePage {
     private enterAccountHolderName = this.page.getByRole('textbox', { name: 'Account holder name' });
     private validatePageHeader = this.page.getByRole('heading', { name: 'Your bank details' });
     private validatePageDescription = this.page.getByText('This is the bank account we');
+    private validateAccountNumberRequired = this.page.getByTestId('bankAccountNumber').getByTestId('validation');
+    private validateAccountHolderNameRequired = this.page.getByTestId('accountHolderName').getByTestId('validation');
+    private formFieldError = this.page.locator('div').filter({ hasText: '❗ Validation ErrorPlease' }).nth(1);  
 
     constructor(page: Page) {
         super(page);
@@ -48,7 +51,30 @@ export class BankDetailsPage extends BasePage {
         await this.validatePageDescription.isVisible();
     }
 
+    async fillBankDetails(bankDetails: any) {
+        await this.selectBank();
+        await this.selectBankBranch();
+        await this.chooseAccountType();
+        await this.captureAccountNumber(bankDetails.accountNumber);
+        await this.captureAccountHolderName(bankDetails.accountHolderName);
+    }    
 
+    async validateRequiredFields() {
+        await expect(this.validateAccountNumberRequired).toBeVisible();
+        await expect(this.validateAccountHolderNameRequired).toBeVisible();
+        await expect(this.formFieldError).toBeVisible();
+    }
+
+    async validateErrorMessageNotVisible() {
+        await expect(this.validateAccountNumberRequired).not.toBeVisible();
+        await expect(this.validateAccountHolderNameRequired).not.toBeVisible();
+        await expect(this.formFieldError).not.toBeVisible();
+    }
+
+    async validateInvalidAccountNumber() {
+        await expect(this.validateAccountNumberRequired).toBeVisible();
+        await expect(this.formFieldError).toBeVisible();
+    }
 }
 
 

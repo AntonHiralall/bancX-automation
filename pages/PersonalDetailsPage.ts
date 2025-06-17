@@ -17,12 +17,11 @@ export class PersonalDetailsPage extends BasePage {
     private countyOfBirth = this.page.getByTestId('countryOfBirth').getByRole('button', { name: 'dropdown trigger' });
     private selectCountryOfBirth = this.page.getByRole('option', { name: 'South Africa' });
     private countryOfCitizenship = this.page.getByTestId('countryOfCitizenship').getByRole('button', { name: 'dropdown trigger' });
-    private selectCountryOfCitizenship = this.page.getByRole('option', { name: 'South Africa' });
+    private selectCountryOfCitizenship = this.page.getByTestId('countryOfCitizenship').getByRole('option', { name: 'South Africa' });
     private fnameRequiredErrorMessage = this.page.getByTestId('firstName').getByTestId('validation');
     private lnameRequiredErrorMessage = this.page.getByTestId('lastName').getByTestId('validation');
     private mobileNumberRequiredErrorMessage = this.page.getByTestId('mobileNumber').getByTestId('validation');
     private emailRequiredErrorMessage = this.page.getByTestId('emailAddress').getByTestId('validation');
-    private requiredErrorMessage = 'This field is required';
     private invalidEmailErrorMessage = this.page.getByTestId('emailAddress').getByTestId('validation');
     private submitErroMessage = this.page.locator('div').filter({ hasText: '❗ Validation ErrorPlease' }).nth(1);
 
@@ -32,20 +31,48 @@ export class PersonalDetailsPage extends BasePage {
     }
 
     async fillPersonalDetails(personalDetails: PersonalDetails) {
-        await this.title.click();
-        await this.selectTitle.click();
+        // Wait for the page to be fully loaded
+        await this.page.waitForLoadState('networkidle');
+        
+        // Click title dropdown with retry
+        await this.page.waitForSelector('[data-testid="title"]');
+        await this.title.waitFor({ state: 'visible' });
+        await this.title.click({ force: true });
+        
+        // Wait for dropdown to be visible and click option
+        await this.selectTitle.waitFor({ state: 'visible' });
+        await this.selectTitle.click({ force: true });
+
         await this.fname.fill(personalDetails.fname);
         await this.lname.fill(personalDetails.lname);
-        await this.gender.click();
-        await this.selectGender.click();
+        
+        // Click gender dropdown with retry
+        await this.gender.waitFor({ state: 'visible' });
+        await this.gender.click({ force: true });
+        await this.selectGender.waitFor({ state: 'visible' });
+        await this.selectGender.click({ force: true });
+
         await this.mobileNumber.fill(personalDetails.mobileNumber);
         await this.email.fill(personalDetails.email);
-        await this.dob.click();
-        await this.selectDob.click();
-        await this.countyOfBirth.click();
-        await this.selectCountryOfBirth.click();
-        await this.countryOfCitizenship.click();
-        await this.selectCountryOfCitizenship.click();
+        
+        // Click DOB with retry
+        await this.dob.waitFor({ state: 'visible' });
+        await this.dob.click({ force: true });
+        await this.selectDob.waitFor({ state: 'visible' });
+        await this.selectDob.click({ force: true });
+
+        // Click country of birth with retry
+        await this.countyOfBirth.waitFor({ state: 'visible' });
+        await this.countyOfBirth.click({ force: true });
+        await this.selectCountryOfBirth.waitFor({ state: 'visible' });
+        await this.selectCountryOfBirth.click({ force: true });
+
+        // Click country of citizenship with retry
+        await this.countryOfCitizenship.waitFor({ state: 'visible' });
+        await this.countryOfCitizenship.click({ force: true });
+        await this.selectCountryOfCitizenship.waitFor({ state: 'visible' });
+        await this.selectCountryOfCitizenship.click({ force: true });
+
         await this.clickNext();
     }
 

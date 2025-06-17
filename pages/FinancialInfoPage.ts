@@ -10,7 +10,6 @@ export class FinancialInfoPage extends BasePage {
     private payDaySelect = this.page.getByTestId('monthlyPayDate');
     private loanReasonSelect = this.page.getByTestId('loanReason');
     private termsAndConditionsCheckbox = this.page.getByRole('checkbox', { name: 'I give AVBOB Personal Loans' });
-    // private nextButton = this.page.getByRole('button', { name: 'Next' });
     private expensesEqualsIncomeValidationMessage = this.page.getByTestId('validation');
     private financialInfoErrorMessage = this.page.locator('div').filter({ hasText: '❗ Validation ErrorPlease' }).nth(1);
 

@@ -1,0 +1,97 @@
+{
+    "validScenarios": {
+        "standardAddress": {
+            "addressLine1": "123 Main Street",
+            "suburb": "Greenwood",
+            "city": "Cape Town",
+            "province": "Western Cape",
+            "country": "South Africa",
+            "postalCode": "8001"
+        },
+        "addressWithLine2": {
+            "addressLine1": "456 Oak Avenue",
+            "addressLine2": "Unit 7B",
+            "suburb": "Sandton",
+            "city": "Johannesburg",
+            "province": "Gauteng",
+            "country": "South Africa",
+            "postalCode": "2196"
+        },
+        "longAddress": {
+            "addressLine1": "789 Very Long Street Name That Might Test The System",
+            "suburb": "Long Suburb Name That Might Test The System",
+            "city": "Pretoria",
+            "province": "Gauteng",
+            "country": "South Africa",
+            "postalCode": "0001"
+        },
+        "shortAddress": {
+            "addressLine1": "1 St",
+            "suburb": "Sub",
+            "city": "CT",
+            "province": "WC",
+            "country": "South Africa",
+            "postalCode": "8001"
+        }
+    },
+    "invalidScenarios": {
+        "emptyFields": {
+            "addressLine1": "",
+            "suburb": "",
+            "city": "",
+            "province": "",
+            "country": "",
+            "postalCode": ""
+        },
+        "invalidPostalCode": {
+            "addressLine1": "123 Main Street",
+            "suburb": "Greenwood",
+            "city": "Cape Town",
+            "province": "Western Cape",
+            "country": "South Africa",
+            "postalCode": "ABC123"
+        },
+        "invalidCity": {
+            "addressLine1": "123 Main Street",
+            "suburb": "Greenwood",
+            "city": "123",
+            "province": "Western Cape",
+            "country": "South Africa",
+            "postalCode": "8001"
+        },
+        "specialCharacters": {
+            "addressLine1": "123 Main St!@#",
+            "suburb": "Greenwood#$%",
+            "city": "Cape Town^&*",
+            "province": "Western Cape()",
+            "country": "South Africa",
+            "postalCode": "8001"
+        }
+    },
+    "edgeCases": {
+        "maximumLengthAddress": {
+            "addressLine1": "This is a very long address line that might test the maximum length of the address field in the system",
+            "suburb": "This is a very long suburb name that might test the maximum length of the suburb field in the system",
+            "city": "Cape Town",
+            "province": "Western Cape",
+            "country": "South Africa",
+            "postalCode": "8001"
+        },
+        "minimumLengthAddress": {
+            "addressLine1": "1",
+            "suburb": "S",
+            "city": "C",
+            "province": "W",
+            "country": "South Africa",
+            "postalCode": "8"
+        },
+        "internationalAddress": {
+            "addressLine1": "123 International Street",
+            "suburb": "Downtown",
+            "city": "London",
+            "province": "Greater London",
+            "country": "United Kingdom",
+            "postalCode": "SW1A 1AA"
+        }
+    }
+} 

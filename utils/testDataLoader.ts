@@ -1,6 +1,7 @@
 import { FinancialInfo, FinancialInfoData } from '../test-data/financialInfo.types';
 import { PersonalDetailsData } from '../test-data/personalDetails.types';
 import { BankDetails, BankDetailsTestData } from '../test-data/bankDetails.types';
+import { AddressDetails, AddressDetailsTestData } from '../test-data/addressDetails.types';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -9,6 +10,7 @@ export class TestDataLoader {
     private financialInfoData: FinancialInfoData;
     private personalDetailsData: PersonalDetailsData;
     private bankDetailsData: BankDetailsTestData;
+    private addressDetailsData: AddressDetailsTestData;
 
     private constructor() {
         const financialInfoPath = path.join(process.cwd(), 'test-data', 'financialInfo.json');
@@ -17,6 +19,7 @@ export class TestDataLoader {
         
         this.personalDetailsData = require('../test-data/personalDetails.json');
         this.bankDetailsData = require('../test-data/bankDetails.json');
+        this.addressDetailsData = require('../test-data/addressDetails.json');
     }
 
     public static getInstance(): TestDataLoader {
@@ -96,5 +99,24 @@ export class TestDataLoader {
      */
     public getAllBankDetailsScenarios(category: keyof BankDetailsTestData): BankDetails[] {
         return Object.values(this.bankDetailsData[category]);
+    }
+
+    /**
+     * Get address details for a specific scenario
+     * @param category The category of the scenario
+     * @param scenario The specific scenario name
+     * @returns The address details data for the specified scenario
+     */
+    public getAddressDetails(category: keyof AddressDetailsTestData, scenario: string): AddressDetails {
+        return this.addressDetailsData[category][scenario as keyof typeof this.addressDetailsData[typeof category]];
+    }
+
+    /**
+     * Get all address details scenarios from a specific category
+     * @param category The category of scenarios to get
+     * @returns An array of all address details scenarios in the specified category
+     */
+    public getAllAddressDetailsScenarios(category: keyof AddressDetailsTestData): AddressDetails[] {
+        return Object.values(this.addressDetailsData[category]);
     }
 } 

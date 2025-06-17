@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 
 export class BasePage {
     protected page: Page;
@@ -35,5 +36,13 @@ export class BasePage {
     async clickNext() {
         await this.nextButton.click();
         await this.waitForPageLoad();
+    }
+
+    /**
+     * Validate that an element is not visible
+     * @param element The element to check
+     */
+    async validateElementNotVisible(element: any) {
+        await expect(element).not.toBeVisible();
     }
 } 

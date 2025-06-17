@@ -14,14 +14,6 @@ export class DashboardPage extends BasePage {
     }
 
     /**
-     * Click the create account button
-     */
-    async clickCreateAccount() {
-        await this.createAccountButton.click();
-        await this.waitForPageLoad();
-    }
-
-    /**
      * Open the user menu
      */
     async openUserMenu() {

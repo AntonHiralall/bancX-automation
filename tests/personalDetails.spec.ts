@@ -18,14 +18,14 @@ test.describe('Personal Details Form', () => {
         const loginPage = new LoginPage(page);
         await loginPage.navigateToLogin();
         dashboardPage = await loginPage.login();
-        await dashboardPage.waitForPageLoad();
 
         // Cancel any existing application
         helpers = new Helpers(page);
+        await page.waitForLoadState('networkidle');
         await helpers.cancelExistingApplication();
 
         // Navigate to financial info page
-        await dashboardPage.clickCreateAccount();
+        await helpers.clickCreateAccount();
         financialInfoPage = new FinancialInfoPage(page);
         await financialInfoPage.waitForPageLoad();
 
@@ -92,6 +92,7 @@ test.describe('Personal Details Form', () => {
             const invalidMobile = testData.getPersonalDetails('invalidScenarios', 'invalidMobile');
             await test.step('Fill in invalid mobile', async () => {
                 await personalDetailsPage.fillPersonalDetails(invalidMobile);
+                await personalDetailsPage.clickNext();
             });
             // System does not have mobile number character validation
         });
@@ -100,9 +101,9 @@ test.describe('Personal Details Form', () => {
             const specialCharacters = testData.getPersonalDetails('invalidScenarios', 'specialCharacters');
             await test.step('Fill in special characters', async () => {
                 await personalDetailsPage.fillPersonalDetails(specialCharacters);
+                await personalDetailsPage.clickNext();
             });
             // System allows special characters
-            // test
         });
     });
 });
