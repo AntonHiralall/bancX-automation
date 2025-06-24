@@ -64,28 +64,23 @@ test.describe('Document Upload Tests', () => {
         test('Should successfully upload documents', async () => {
             await documentUploadsPage.uploadDocument('id', 'test-data/documents/Sample ID.jpg');
             await documentUploadsPage.uploadDocument('payslip', 'test-data/documents/Sample payslip A.png');
-            await documentUploadsPage.clickNext();
-           
-            await test.step('Verify documents are uploaded', async () => {
-                await expect(documentUploadsPage.identityDocumentViewLocator).toBeVisible();
-                await expect(documentUploadsPage.payslipViewLocator).toBeVisible();
-                await expect(documentUploadsPage.bankStatementsViewLocator).toBeVisible();
-            });
-        });
-
-        test('Should successfully upload multiple bank statements', async () => {
-            await documentUploadsPage.uploadMultipleBankStatements(['test-data/documents/Sample bank statement page 1.jpg', 'test-data/documents/Sample bank statement page 2.jpg', 'test-data/documents/Sample bank statement page 3.pdf']);
-            await documentUploadsPage.clickNext();
-        });
-
-        test('Should successfully open uploaded documents', async () => {
-            await documentUploadsPage.clickIdentityDocumentView();
-            await documentUploadsPage.clickIdentityDocumentOpen();
-            await documentUploadsPage.clickPayslipView();
-            await documentUploadsPage.clickPayslipOpen();
-            await documentUploadsPage.clickBankStatementsView();
-            await documentUploadsPage.clickBankStatementsOpen();
+            await expect(documentUploadsPage.identityDocumentViewLocator).toBeVisible();
+            await expect(documentUploadsPage.payslipViewLocator).toBeVisible();
+            await expect(documentUploadsPage.bankStatementsViewLocator).toBeVisible();
         });
     });
 
+    test('Should successfully upload multiple bank statements', async () => {
+        await documentUploadsPage.uploadMultipleBankStatements(['test-data/documents/Sample bank statement page 1.jpg', 'test-data/documents/Sample bank statement page 2.jpg', 'test-data/documents/Sample bank statement page 3.pdf']);
+    });
+
+    test('Should successfully open uploaded documents', async () => {
+        await documentUploadsPage.clickIdentityDocumentView();
+        await documentUploadsPage.clickIdentityDocumentOpen();
+        await documentUploadsPage.clickPayslipView();
+        await documentUploadsPage.clickPayslipOpen();
+        await documentUploadsPage.clickBankStatementsView();
+        await documentUploadsPage.clickBankStatementsOpen();
+        await documentUploadsPage.clickNext();
+    });
 });

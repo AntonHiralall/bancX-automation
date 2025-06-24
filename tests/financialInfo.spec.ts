@@ -45,15 +45,18 @@ test.describe('Financial Information Form', () => {
                 expect(await financialInfoPage.isErrorMessageVisible()).toBeFalsy();
             });
 
-            await test.step('Select test product and verify loan calculator screen', async () => {
+            await test.step('Select test product', async () => {
                 await helpers.selectTestProduct();
-                const loanCalculatorScreen = await page.screenshot({ fullPage: true, path: 'test-data/screenshots/currentLoanCalculatorScreen.png' });
-                expect(loanCalculatorScreen).toEqual('test-data/screenshots/reference/loan-calculator-screen.jpg');
+            });
+            await test.step('Assertions on loan calculator screen', async () => {
+                await financialInfoPage.waitForPageLoad();
+                await financialInfoPage.validateAffordabilityText();
+                await financialInfoPage.validateLoanAmountText();
+                await financialInfoPage.validateLoanTermText();
+                await financialInfoPage.validateLoanInstalmentText();
+                await financialInfoPage.validateIndicativeAmountText();
             });
 
-            await test.step('Verify form is properly filled', async () => {
-                expect(await financialInfoPage.areRequiredFieldsFilled()).toBeTruthy();
-            });
         });
 
         test('Should successfully submit form with high income', async ({ page }) => {

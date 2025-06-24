@@ -6,6 +6,7 @@ import { DashboardPage } from '../pages/DashboardPage';
 import { FinancialInfoPage } from '../pages/FinancialInfoPage';
 import { Helpers } from '../utils/helpers';
 import { PersonalDetailsPage } from '../pages/PersonalDetailsPage';
+import { AddressDetailsPage } from '../pages/AddressDetails';
 
 test.describe('Bank Details Form Tests', () => {
     let bankDetailsPage: BankDetailsPage;
@@ -42,15 +43,18 @@ test.describe('Bank Details Form Tests', () => {
         // Click next on calculator screen
         await financialInfoPage.clickNext();
 
-        // Initialize personal details page
+        // Click next on personal details page
         const personalDetailsPage = new PersonalDetailsPage(page);
-        const personalDetails = testDataLoader.getPersonalDetails('validScenarios', 'standardDetails');
-        await page.waitForLoadState('networkidle');
-        await personalDetailsPage.fillPersonalDetails(personalDetails);
         await personalDetailsPage.clickNext();
+
+        // Click next on address details page
+        const addressDetailsPage = new AddressDetailsPage(page);
+        addressDetailsPage.clickNext();
+
 
         // Initialize bank details page
         bankDetailsPage = new BankDetailsPage(page);
+        await bankDetailsPage.waitForPageLoad();
         await bankDetailsPage.assertPageHeader();
         await bankDetailsPage.assertPageDescription();
     });

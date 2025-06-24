@@ -49,16 +49,19 @@ test.describe('Personal Details Form', () => {
         test('Should successfully submit form with standard details', async ({ page }) => {
             const standardDetails = testData.getPersonalDetails('validScenarios', 'standardDetails');
             await personalDetailsPage.fillPersonalDetails(standardDetails);
+            await personalDetailsPage.clickNext();
         });
 
         test('Should successfully submit form with long names', async ({ page }) => {
             const longNameDetails = testData.getPersonalDetails('validScenarios', 'longNameDetails');
             await personalDetailsPage.fillPersonalDetails(longNameDetails);
+            await personalDetailsPage.clickNext();
         });
 
         test('Should successfully submit form with short names', async ({ page }) => {
             const shortNameDetails = testData.getPersonalDetails('validScenarios', 'shortNameDetails');
             await personalDetailsPage.fillPersonalDetails(shortNameDetails);
+            await personalDetailsPage.clickNext();
         });
     });
 
@@ -67,8 +70,10 @@ test.describe('Personal Details Form', () => {
             const emptyFields = testData.getPersonalDetails('invalidScenarios', 'emptyFields');
             await test.step('Fill in empty fields', async () => {
                 await personalDetailsPage.fillPersonalDetails(emptyFields);
+                await personalDetailsPage.clickNext();
             });
             await test.step('Validate error messages', async () => {
+            
                 await personalDetailsPage.validateFnameRequiredErrorMessage();
                 await personalDetailsPage.validateLnameRequiredErrorMessage();
                 await personalDetailsPage.validateMobileNumberRequiredErrorMessage();
@@ -81,6 +86,7 @@ test.describe('Personal Details Form', () => {
             const invalidEmail = testData.getPersonalDetails('invalidScenarios', 'invalidEmail');
             await test.step('Fill in invalid email', async () => {
                 await personalDetailsPage.fillPersonalDetails(invalidEmail);
+                await personalDetailsPage.clickNext();
             });
             await test.step('Validate error messages', async () => {
                 await personalDetailsPage.validateInvalidEmailErrorMessage();
