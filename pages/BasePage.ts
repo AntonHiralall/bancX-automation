@@ -24,6 +24,7 @@ export class BasePage {
         this.loanTermText = this.page.getByText('And repay it over');
         this.loanInstalmentText = this.page.getByTestId('label');
         this.indicativeAmountText = this.page.getByText('The amounts reflected in this');
+        this.contactSupport = this.page.getByRole('button', { name: 'Contact Support' });
 
     }
 
@@ -83,10 +84,10 @@ export class BasePage {
     }
 
     async clickContactSupport() {
-        await this.page.getByRole('button', { name: 'Contact Support' }).click();
+        await this.contactSupport.click();
     }
     async validateSupportPageHeader() {
-        await expect(this.page.locator('div').filter({ hasText: /^Help & support$/ }));
+        await expect(this.page.getByText('Help & support')).toBeVisible();
     }
 
     async validateRetrySnapshot() {

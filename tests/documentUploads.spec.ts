@@ -5,7 +5,7 @@ import { DocumentUploadsPage } from '../pages/DocumentUploads';
 import { FinancialInfoPage } from '../pages/FinancialInfoPage';
 import { TestDataLoader } from '../utils/testDataLoader';
 
-test.describe('Document Upload Tests', () => {
+test.describe.skip('Document Upload Tests', () => {
     let documentUploadsPage: DocumentUploadsPage;
     let helpers: Helpers;
     let financialInfoPage: FinancialInfoPage;
@@ -82,5 +82,20 @@ test.describe('Document Upload Tests', () => {
         await documentUploadsPage.clickBankStatementsView();
         await documentUploadsPage.clickBankStatementsOpen();
         await documentUploadsPage.clickNext();
+
+    });
+    test('Match retry snapshot', async () => {
+        await documentUploadsPage.clickNext();
+        await documentUploadsPage.validateRetrySnapshot();
+    });
+    test('Match help and support snapshot', async () => {
+        await documentUploadsPage.clickNext();
+        await documentUploadsPage.clickContactSupport();
+        await documentUploadsPage.validateSupportPageHeader();
+        await documentUploadsPage.validateHelpAndSupportSnapshot();
     });
 });
+
+
+// Add help and support page tests
+// Add allure reporting

@@ -79,6 +79,23 @@ After test execution, view the HTML report:
 npx playwright show-report
 ```
 
+### Allure Reports
+
+Allure provides advanced, interactive test reporting. To generate and view Allure reports:
+
+1. **Run your tests:**
+   ```bash
+   npx playwright test
+   ```
+2. **Generate the Allure report:**
+   ```bash
+   npx allure generate allure-results --clean -o allure-report
+   ```
+3. **Open the Allure report in your browser:**
+   ```bash
+   npx allure open allure-report
+   ```
+
 ## 🔧 Configuration
 
 The framework uses `playwright.config.ts` for configuration. Key settings include:
