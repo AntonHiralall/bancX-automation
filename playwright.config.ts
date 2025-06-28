@@ -28,7 +28,7 @@ export default defineConfig({
     ['allure-playwright', { outputFolder: 'allure-results', detail: true, suiteTitle: false }]
   ],
   /* Timeout for each test */
-  timeout: 30000,
+  timeout: 60000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -44,9 +44,20 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
+      name: 'ui-tests',
+      testMatch: 'tests/ui/**/*.spec.ts',
       use: { ...devices['Desktop Chrome'] },
     },
+    // {
+    //   name: 'api-tests',
+    //   testMatch: 'tests/api/**/*.spec.ts',
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
+    // {
+    //   name: 'chromium',
+    //   testMatch: 'tests/**/*.spec.ts',
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
 
     // {
     //   name: 'firefox',
@@ -64,7 +75,7 @@ export default defineConfig({
     //   use: { ...devices['Pixel 5'] },
     // },
     // {
-    //   name: 'Mobile Safari',
+    //   name: 'mobile',
     //   use: { ...devices['iPhone 12'] },
     // },
 

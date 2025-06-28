@@ -22,6 +22,7 @@ export class FinancialInfoPage extends BasePage {
      * @param data The financial information data to fill in
      */
     async fillFinancialInfo(data: FinancialInfo) {
+        await this.waitForPageLoad();
         await this.fillGrossMonthlyIncome(data.grossMonthlyIncome);
         await this.fillMonthlyNetIncome(data.monthlyNetIncome);
         await this.fillMonthlyExpenses(data.monthlyExpenses);

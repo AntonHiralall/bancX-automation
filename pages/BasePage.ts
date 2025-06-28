@@ -1,31 +1,34 @@
 import { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
-import { time } from 'console';
+import { time } from 'console'; 
 
 export class BasePage {
     protected page: Page;
     private nextButton;
+    private continueLoanApplication;
     private affordabilityTextVisible;
     private loanAmountText;
     private loanTermText;
     private loanInstalmentText;
     private indicativeAmountText;
-    private retrySnapshot;
-    private helpAndSupportSnapShot;
+    private loanCalculatorPageHeader;
     private contactSupport;
-    private supportPageHeader;
+    private continueLater;
+ 
 
 
     constructor(page: Page) {
-        this.page = page; 
+        this.page = page;
         this.nextButton = this.page.getByTestId('next').getByRole('button', { name: 'Next' });
+        this.continueLater = this.page.getByRole('button', { name: 'Continue Later' }); 
+        this.continueLoanApplication = this.page.getByRole('button', { name: 'Continue' });
         this.affordabilityTextVisible = this.page.getByText('Choose your loan amountYou’ve');
         this.loanAmountText = this.page.getByText('I would like to borrow');
         this.loanTermText = this.page.getByText('And repay it over');
         this.loanInstalmentText = this.page.getByTestId('label');
         this.indicativeAmountText = this.page.getByText('The amounts reflected in this');
         this.contactSupport = this.page.getByRole('button', { name: 'Contact Support' });
-
+        this.loanCalculatorPageHeader = this.page.getByText('Choose loan amountHelp');
     }
 
 
@@ -51,23 +54,50 @@ export class BasePage {
         return await this.page.title();
     }
 
-    async clickNext() {
-        // Wait for the next button to be visible (max 3 seconds), then click
-        await this.nextButton.waitFor({ state: "visible", timeout: 3000 });
-        await this.nextButton.click();
+    async clickContinueLater() {
+        await this.continueLater.waitFor({ state: "visible"});
+        await this.continueLater.click();
+    }
+    
+    async clickContinueLoanApplication() {
         await this.waitForPageLoad();
+        await this.continueLoanApplication.waitFor({ state: "visible", timeout: 5000 });
+        await this.continueLoanApplication.click();
     }
 
     /**
-     * Validate that an element is not visible
-     * @param element The element to check
+     * Validate that current URL contains loan-calculator
+     * @returns Promise<boolean> - true if current URL contains loan-calculator
      */
-    async validateElementNotVisible(element: any) {
-        await expect(element).not.toBeVisible();
+    async validateLoanCalculatorUrl(): Promise<boolean> {
+        await this.waitForPageLoad();
+        const currentUrl = this.page.url();
+        console.log('🔍 Validating current URL contains loan-calculator');
+        console.log('📍 Current URL:', currentUrl);
+        
+        const isLoanCalculatorUrl = currentUrl.includes('loan-calculator');
+        
+        if (isLoanCalculatorUrl) {
+            console.log('✅ Current URL contains loan-calculator');
+        } else {
+            console.log('❌ Current URL does not contain loan-calculator');
+        }
+        
+        return isLoanCalculatorUrl;
+    }
+
+    async clickNext() {
+        // Wait for the next button to be visible, then click
+        await this.waitForPageLoad();
+        await this.nextButton.waitFor({ state: "visible", timeout: 5000 });
+        await this.nextButton.click();
     }
 
     async validateAffordabilityText() {
         await this.affordabilityTextVisible.isVisible();
+    }
+    async validateLoanCalculatorPageHeader() {
+        await this.loanCalculatorPageHeader.isVisible();
     }
 
     async validateLoanAmountText() {

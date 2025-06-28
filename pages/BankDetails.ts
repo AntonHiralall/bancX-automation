@@ -21,16 +21,19 @@ export class BankDetailsPage extends BasePage {
     }
 
     async selectBank() {
+        await this.waitForPageLoad();
         await this.loadBankOptions.click();
         await this.selectBankOption.click();
     }
 
     async selectBankBranch() {
+        await this.waitForPageLoad();
         await this.loadBankBranch.click();
         await this.validateBankBranch.click();
     }
 
     async chooseAccountType() {
+        await this.waitForPageLoad();
         await this.loadAccountType.click();
         await this.selectAccountType.click();
     }
@@ -52,6 +55,7 @@ export class BankDetailsPage extends BasePage {
     }
 
     async fillBankDetails(bankDetails: any) {
+        await this.waitForPageLoad();
         await this.selectBank();
         await this.selectBankBranch();
         await this.chooseAccountType();

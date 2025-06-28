@@ -18,6 +18,7 @@ A robust end-to-end testing framework for bancX using Playwright and TypeScript,
 - Node.js (v16 or higher)
 - npm or yarn
 - Git
+- Allure CLI (install globally: `npm install -g allure-commandline`)
 
 ## 🛠️ Installation
 
@@ -43,7 +44,10 @@ npx playwright install
 bancX-automation/
 ├── config/                 # Configuration files
 ├── pages/                  # Page Object Models
+│   └── api/               # API service layer
 ├── tests/                  # Test specifications
+│   ├── ui/                # UI/E2E test specifications
+│   └── api/               # API test specifications
 ├── test-data/             # Test data files
 ├── utils/                 # Helper functions and utilities
 ├── tests-examples/        # Example test cases
@@ -57,19 +61,110 @@ bancX-automation/
 npm test
 ```
 
-### Run specific test file
+### Run UI tests only
 ```bash
-npx playwright test tests/documentUploads.spec.ts
+npm run test:ui
+# or using project configuration
+npm run test:ui-project
+```
+
+### Run API tests only
+```bash
+npm run test:api
+# or using project configuration
+npm run test:api-project
+```
+
+### Run combined API + UI tests
+```bash
+npm run test:combined
 ```
 
 ### Run tests in UI mode
 ```bash
-npx playwright test --ui
+npm run test:ui-mode
 ```
 
 ### Run tests in debug mode
 ```bash
-npx playwright test --debug
+npm run test:debug
+```
+
+### Run tests with Allure reporting
+```bash
+npm run test:ui -- --reporter=allure-playwright
+```
+
+## 🔌 API Testing Integration
+
+The framework now supports both UI and API testing with seamless integration:
+
+### API Testing Structure
+
+```
+pages/
+├── api/                    # API Page Objects (Service Layer)
+│   └── AuthApi.ts         # Authentication API endpoints
+utils/
+├── apiHelpers.ts          # Common API utilities and request handling
+tests/
+├── ui/                    # UI/E2E test specifications
+│   ├── login.spec.ts      # Login UI tests
+│   ├── dashboard.spec.ts  # Dashboard UI tests
+│   └── ...                # Other UI tests
+├── api/                   # API test specifications
+│   ├── auth.api.spec.ts   # Authentication API tests
+│   └── combined.api.spec.ts # Combined API + UI tests
+```
+
+### Key Features
+
+- **Unified Framework**: Same Playwright setup for both UI and API tests
+- **Page Object Model**: API endpoints organized in service classes
+- **Reusable Helpers**: Common API utilities for request/response handling
+- **Authentication Management**: Automatic token handling and session management
+- **Combined Testing**: API setup for UI tests and vice versa
+- **Type Safety**: Full TypeScript support for API contracts
+
+### API Testing Examples
+
+```typescript
+// Simple API test
+test('Login via API', async ({ request }) => {
+    const apiHelpers = new ApiHelpers(request);
+    const authApi = new AuthApi(apiHelpers);
+    
+    const response = await authApi.login({
+        email: 'user@example.com',
+        password: 'password'
+    });
+    
+    expect(response.token).toBeDefined();
+});
+
+// Combined API + UI test
+test('API setup for UI verification', async ({ page, request }) => {
+    // Setup data via API
+    const apiHelpers = new ApiHelpers(request);
+    await apiHelpers.post('/api/test-data', { status: 'pending' });
+    
+    // Verify in UI
+    await page.goto('/dashboard');
+    await expect(page.locator('.status')).toHaveText('pending');
+});
+```
+
+### Running API Tests
+
+```bash
+# Run all API tests
+npm run test:api
+
+# Run specific API test
+npx playwright test tests/api/auth.api.spec.ts
+
+# Run combined tests
+npm run test:combined
 ```
 
 ## 📊 Test Reports
@@ -145,3 +240,134 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👥 Authors
 
 - **Anton Hiralall** - *Initial work* - [AntonHiralall](https://github.com/AntonHiralall)
+
+## 🧹 Allure Results Cleanup
+
+### Automatic Cleanup Scripts
+To ensure only the most recent test runs are displayed in Allure reports, use these cleanup scripts:
+
+```bash
+# Clean everything (results + reports)
+npm run clean:allure
+
+# Clean only Allure results (keep reports)
+npm run clean:allure:results
+
+# Clean only Allure reports (keep results)
+npm run clean:allure:reports
+```
+
+### Manual Cleanup
+You can also run the cleanup script directly:
+
+```bash
+# PowerShell script
+powershell -ExecutionPolicy Bypass -File scripts/clean-allure-results.ps1
+
+# Windows batch file
+scripts/clean-allure.bat
+```
+
+### What Gets Cleaned
+- `allure-results/` - Previous test results and attachments
+- `allure-report/` - Generated Allure reports
+- `test-results/` - Playwright test results
+- `playwright-report/` - Playwright HTML reports
+
+## 📊 Allure Reporting
+
+### Generate and View Reports
+```bash
+# Generate Allure report
+npm run allure:generate
+
+# Open Allure report in browser
+npm run allure:open
+
+# Serve Allure report (live mode)
+npm run allure:serve
+```
+
+### Report Features
+- **Test Results**: Pass/fail status with detailed error messages
+- **Screenshots**: Automatic screenshots on test failures
+- **Videos**: Test execution recordings
+- **Logs**: Console logs and test steps
+- **Environment Info**: Browser, OS, and test configuration
+
+## 📁 Project Structure
+
+```
+bancx-automation/
+├── tests/
+│   ├── UI/                 # UI test specifications
+│   └── api/               # API test specifications
+├── pages/                 # Page Object Models
+├── utils/                 # Helper functions and utilities
+├── config/               # Configuration files
+├── test-data/            # Test data files
+├── scripts/              # Utility scripts
+│   ├── clean-allure-results.ps1
+│   └── clean-allure.bat
+├── allure-results/       # Allure test results
+├── allure-report/        # Generated Allure reports
+└── playwright.config.ts  # Playwright configuration
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+Create a `.env` file in the root directory:
+```env
+BASE_URL=https://your-application-url.com
+API_BASE_URL=https://your-api-url.com
+USERNAME=your-username
+PASSWORD=your-password
+```
+
+### Playwright Configuration
+The framework supports multiple browser configurations and environments. See `playwright.config.ts` for details.
+
+## 📝 Best Practices
+
+### Test Organization
+- Use descriptive test names
+- Group related tests using `test.describe()`
+- Follow the AAA pattern (Arrange, Act, Assert)
+
+### Page Object Model
+- Each page has its own Page Object class
+- Keep selectors private and methods public
+- Return new page objects when navigation occurs
+
+### Logging and Debugging
+- Use `console.log()` for debugging
+- Leverage Allure's built-in logging
+- Add descriptive error messages to assertions
+
+## 🐛 Troubleshooting
+
+### Common Issues
+1. **Allure Results Not Showing**: Run `npm run clean:allure` to clear old results
+2. **Test Failures**: Check browser compatibility and element selectors
+3. **Timeout Issues**: Increase timeout values in `playwright.config.ts`
+
+### Debug Mode
+```bash
+# Run tests in debug mode
+npm run test:debug
+
+# Run tests with UI mode
+npm run test:ui-mode
+```
+
+## 🤝 Contributing
+
+1. Follow the existing code structure
+2. Add proper logging and error messages
+3. Update documentation for new features
+4. Run cleanup scripts before committing
+
+## 📄 License
+
+This project is licensed under the ISC License.

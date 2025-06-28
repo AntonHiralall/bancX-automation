@@ -23,6 +23,7 @@ export class AddressDetailsPage extends BasePage {
     }
 
     async fillAddressDetails(addressDetails: AddressDetails) {
+        await this.waitForPageLoad();
         await this.addressLine1.fill(addressDetails.addressLine1);
         if (addressDetails.addressLine2) {
             await this.addressLine2.fill(addressDetails.addressLine2);
