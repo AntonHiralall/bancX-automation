@@ -164,7 +164,7 @@ test.describe('Validate user is unable to have multiple pending loan application
         await financialInfoPage.waitForPageLoad();
     });
 
-    test.only('User is unable to have multiple pending loan applications', async ({ page }) => {
+    test('User is unable to have multiple pending loan applications', async ({ page }) => {
         const standardIncome = testData.getFinancialInfo('validScenarios', 'standardIncome');
 
         await test.step('Fill in standard income data', async () => {

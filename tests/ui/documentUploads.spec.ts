@@ -5,7 +5,7 @@ import { DocumentUploadsPage } from '../../pages/DocumentUploads';
 import { FinancialInfoPage } from '../../pages/FinancialInfoPage';
 import { TestDataLoader } from '../../utils/testDataLoader';
 
-test.describe.skip('Document Upload Tests', () => {
+test.describe('Document Upload Tests', () => {
     let documentUploadsPage: DocumentUploadsPage;
     let helpers: Helpers;
     let financialInfoPage: FinancialInfoPage;
