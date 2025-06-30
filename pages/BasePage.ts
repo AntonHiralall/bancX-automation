@@ -14,6 +14,8 @@ export class BasePage {
     private loanCalculatorPageHeader;
     private contactSupport;
     private continueLater;
+    private disallowMultipleLoanApplications;   
+    private clickOkOnDisallowMultipleLoanApplications;
  
 
 
@@ -29,6 +31,8 @@ export class BasePage {
         this.indicativeAmountText = this.page.getByText('The amounts reflected in this');
         this.contactSupport = this.page.getByRole('button', { name: 'Contact Support' });
         this.loanCalculatorPageHeader = this.page.getByText('Choose loan amountHelp');
+        this.disallowMultipleLoanApplications = this.page.getByText('You can only have 1 open loan');
+        this.clickOkOnDisallowMultipleLoanApplications = this.page.getByRole('button', { name: 'Ok' });
     }
 
 
@@ -63,6 +67,14 @@ export class BasePage {
         await this.waitForPageLoad();
         await this.continueLoanApplication.waitFor({ state: "visible", timeout: 5000 });
         await this.continueLoanApplication.click();
+    }
+
+    async validateDisallowMultipleLoanApplications() {
+        await this.disallowMultipleLoanApplications.isVisible();
+    }
+
+    async acceptDisallowMultipleLoanApplications() {
+        await this.clickOkOnDisallowMultipleLoanApplications.click();
     }
 
     /**

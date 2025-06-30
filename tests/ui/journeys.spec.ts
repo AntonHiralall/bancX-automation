@@ -7,7 +7,7 @@ import { DashboardPage } from '../../pages/DashboardPage';
 import { Helpers } from '../../utils/helpers';
 
 
-test.describe('Journeys', () => {
+test.describe('Customer Portal Journeys', () => {
     let loginPage: LoginPage;
     let financialInfoPage: FinancialInfoPage;
     let personalDetailsPage: PersonalDetailsPage;
@@ -99,10 +99,7 @@ test.describe('Journeys', () => {
                 await page.waitForTimeout(5000);
                 await financialInfoPage.clickContinueLoanApplication();
                 console.log('✅ Page loaded before clicking next');
-                
-                // // Wait a bit more to ensure the page is fully loaded
-                // await page.waitForTimeout(2000);
-                
+
             });
 
             await test.step('Validate user is back on loan calculator page', async () => {
@@ -143,4 +140,59 @@ test.describe('Journeys', () => {
             });
         });
     });
-}); 
+});
+
+test.describe('Validate user is unable to have multiple pending loan applications', () => {
+    let helpers: Helpers;
+    let financialInfoPage: FinancialInfoPage;
+    let dashboardPage: DashboardPage;
+    const testData = TestDataLoader.getInstance();
+
+    test.beforeEach(async ({ page }) => {
+        // Login and navigate to financial info page
+        const loginPage = new LoginPage(page);
+        await loginPage.navigateToLogin();
+        dashboardPage = await loginPage.login();
+
+        // Cancel any existing application
+        helpers = new Helpers(page);
+        await helpers.cancelExistingApplication();
+
+        // Navigate to financial info page
+        await helpers.clickCreateAccount();
+        financialInfoPage = new FinancialInfoPage(page);
+        await financialInfoPage.waitForPageLoad();
+    });
+
+    test.only('User is unable to have multiple pending loan applications', async ({ page }) => {
+        const standardIncome = testData.getFinancialInfo('validScenarios', 'standardIncome');
+
+        await test.step('Fill in standard income data', async () => {
+            console.log('📝 Filling financial information form');
+            await financialInfoPage.fillFinancialInfo(standardIncome);
+            console.log('✅ Financial information filled');
+            await financialInfoPage.clickNext();
+        });
+
+        await test.step('Select a product', async () => {
+            console.log('🛍️ Selecting test product');
+            await helpers.selectTestProduct();
+            console.log('✅ Test product selected');
+        });
+
+        await test.step('Click continue later', async () => {
+            console.log('⏸️ Clicking continue later button');
+            await financialInfoPage.clickContinueLater();
+        });
+
+        await test.step('Create a new loan application', async () => {
+            console.log('🔄 Clicking open new account button');
+            await page.waitForTimeout(5000);
+            await helpers.clickCreateAccount();
+        });
+        await test.step('Validate error message is displayed', async () => {
+            expect(financialInfoPage.validateDisallowMultipleLoanApplications(), 'Unable to have multiple pending loan applications error message is displayed').toBeTruthy();
+            await financialInfoPage.acceptDisallowMultipleLoanApplications();
+        });
+    });
+});
